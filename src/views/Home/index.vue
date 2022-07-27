@@ -7,8 +7,8 @@
       label="北京"
       placeholder="请输入小区或地址"
       @search="onSearch"
-      left-icon="arrow-down"
     >
+      <div>123</div>
       <template #action>
         <div @click="onSearch">
           <i class="iconfont icon-map"></i>
@@ -27,19 +27,19 @@
     </van-swipe>
     <!-- 四个图标路由跳转 -->
     <div class="nav_flex">
-      <div class="nav_item">
+      <div class="nav_item" @click="toList">
         <img src="../../assets/imgs/2.png" alt="" />
         <p>整租</p>
       </div>
-      <div class="nav_item">
+      <div class="nav_item" @click="toList">
         <img src="../../assets/imgs/4.png" alt="" />
         <p>合租</p>
       </div>
-      <div class="nav_item">
+      <div class="nav_item" @click="toMap">
         <img src="../../assets/imgs/3.png" alt="" />
         <p>地图找房</p>
       </div>
-      <div class="nav_item">
+      <div class="nav_item" @click="toLogin">
         <img src="../../assets/imgs/1.png" alt="" />
         <p>去出租</p>
       </div>
@@ -105,6 +105,21 @@ export default {
 
     // 搜索vant自带，功能待定义
     onSearch() {},
+    toList() {
+      this.$router.push({
+        name: "List",
+      });
+    },
+    toMap() {
+      this.$router.push({
+        name: "Map",
+      });
+    },
+    toLogin() {
+      this.$router.push({
+        name: "Login",
+      });
+    },
   },
   mounted() {
     this.getSwiperList();
