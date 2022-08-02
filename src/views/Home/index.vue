@@ -1,65 +1,72 @@
 <template>
   <div>
-    <!-- 搜索头部 -->
-    <van-search
-      v-model="value"
-      show-action
-      label="北京"
-      placeholder="请输入小区或地址"
-      @search="onSearch"
-    >
-      <div>123</div>
-      <template #action>
-        <div @click="onSearch">
-          <i class="iconfont icon-map"></i>
-        </div>
-      </template>
-    </van-search>
-    <!-- 轮播图 -->
-    <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-      <van-swipe-item v-for="item in swiperList" :key="item.id">
-        <van-image
-          width="100%"
-          height="100%"
-          :src="`http://liufusong.top:8080${item.imgSrc}`"
-        />
-      </van-swipe-item>
-    </van-swipe>
-    <!-- 四个图标路由跳转 -->
-    <div class="nav_flex">
-      <div class="nav_item" @click="toList">
-        <img src="../../assets/imgs/2.png" alt="" />
-        <p>整租</p>
-      </div>
-      <div class="nav_item" @click="toList">
-        <img src="../../assets/imgs/4.png" alt="" />
-        <p>合租</p>
-      </div>
-      <div class="nav_item" @click="toMap">
-        <img src="../../assets/imgs/3.png" alt="" />
-        <p>地图找房</p>
-      </div>
-      <div class="nav_item" @click="toLogin">
-        <img src="../../assets/imgs/1.png" alt="" />
-        <p>去出租</p>
-      </div>
-    </div>
-    <!-- 租房小组模块 -->
-    <div class="group">
-      <h3 class="group-title">
-        租房小组
-        <span class="more">更多</span>
-      </h3>
-      <div class="grid">
-        <div class="grid_item" v-for="item in groupsList" :key="item.id">
-          <img
-            class="left"
+    <div v-if="$route.meta.show">
+      <!-- 搜索头部 -->
+      <van-search
+        v-model="value"
+        show-action
+        placeholder="请输入小区或地址"
+        @search="onSearch"
+      >
+        <template #label>
+          <div @click="toCity" class="icon-arrowdown">
+            <!-- 北京 -->
+            {{ $store.state.cityName || "北京" }}
+            <span class="iconfont icon-arrow font-arrow"></span>
+          </div>
+        </template>
+        <template #action>
+          <div @click="toMap">
+            <i class="iconfont icon-map"></i>
+          </div>
+        </template>
+      </van-search>
+      <!-- 轮播图 -->
+      <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
+        <van-swipe-item v-for="item in swiperList" :key="item.id">
+          <van-image
+            width="100%"
+            height="100%"
             :src="`http://liufusong.top:8080${item.imgSrc}`"
-            alt=""
           />
-          <div class="right">
-            <p>{{ item.title }}</p>
-            <p>{{ item.desc }}</p>
+        </van-swipe-item>
+      </van-swipe>
+      <!-- 四个图标路由跳转 -->
+      <div class="nav_flex">
+        <div class="nav_item" @click="toList">
+          <img src="../../assets/imgs/2.png" alt="" />
+          <p>整租</p>
+        </div>
+        <div class="nav_item" @click="toList">
+          <img src="../../assets/imgs/4.png" alt="" />
+          <p>合租</p>
+        </div>
+        <div class="nav_item" @click="toMap">
+          <img src="../../assets/imgs/3.png" alt="" />
+          <p>地图找房</p>
+        </div>
+        <div class="nav_item" @click="toLogin">
+          <img src="../../assets/imgs/1.png" alt="" />
+          <p>去出租</p>
+        </div>
+      </div>
+      <!-- 租房小组模块 -->
+      <div class="group">
+        <h3 class="group-title">
+          租房小组
+          <span class="more">更多</span>
+        </h3>
+        <div class="grid">
+          <div class="grid_item" v-for="item in groupsList" :key="item.id">
+            <img
+              class="left"
+              :src="`http://liufusong.top:8080${item.imgSrc}`"
+              alt=""
+            />
+            <div class="right">
+              <p>{{ item.title }}</p>
+              <p>{{ item.desc }}</p>
+            </div>
           </div>
         </div>
       </div>
@@ -99,7 +106,6 @@ export default {
     // 发送请求，获取租房小组数据
     async getRentGroups() {
       const res = await getRentGroupsApi();
-      console.log(res);
       this.groupsList = res.data.body;
     },
 
@@ -120,10 +126,18 @@ export default {
         name: "Login",
       });
     },
+    toCity() {
+      this.$router.push({
+        name: "City",
+      });
+    },
   },
   mounted() {
     this.getSwiperList();
     this.getRentGroups();
+    // this.$route.meta.cityName = this.$
+    // console.log(this.$route);
+    // console.log(this.$route.meta.cityName);
   },
 };
 </script>
@@ -147,6 +161,16 @@ export default {
 }
 .icon-map {
   color: #fff;
+  position: relative;
+  top: 5px;
+}
+.font-arrow {
+  border-right: 1px solid #939394;
+  font-size: 12px;
+  padding-right: 10px;
+}
+.active {
+  color: #000 !important;
 }
 // 四个图片路由跳转区域样式
 .nav_flex {
