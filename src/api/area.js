@@ -7,3 +7,8 @@ export const getHotCity = () =>
   request({
     url: "area/hot",
   });
+
+export const getCityId = (name) =>
+  request({
+    url: `area/info?name=${name}`,
+  });

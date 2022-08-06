@@ -10,7 +10,7 @@
       <img
         v-else
         class="my-bg"
-        :src="`http://liufusong.top:8080${message.avatar}`"
+        :src="`http://liufusong.top:8080${message?.avatar}`"
         alt=""
       />
       <!-- 去登录 -->

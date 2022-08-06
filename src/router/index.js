@@ -12,6 +12,9 @@ import Login from "@/views/Login";
 import Register from "@/views/Register";
 import Favorate from "@/views/Favorate";
 import Rent from "@/views/Rent";
+import Detail from "@/views/Detail";
+import Add from "@/views/Add";
+import Search from "@/views/Search";
 
 let originPush = VueRouter.prototype.push;
 let originReplace = VueRouter.prototype.replace;
@@ -50,6 +53,11 @@ const router = new VueRouter({
     {
       path: "/",
       redirect: "/home",
+    },
+    {
+      path: "/detail",
+      component: Detail,
+      meta: { show: false, id: "" },
     },
     {
       path: "/home",
@@ -109,6 +117,20 @@ const router = new VueRouter({
       component: Rent,
       name: "Rent",
       meta: { show: false },
+      children: [
+        {
+          path: "add",
+          component: Add,
+          name: "Add",
+          meta: { rentShow: false },
+        },
+        {
+          path: "search",
+          component: Search,
+          name: "Search",
+          meta: { rentShow: false },
+        },
+      ],
     },
   ],
 });

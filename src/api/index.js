@@ -10,6 +10,9 @@ export const getUserApi = getUser;
 export const getFavoriteApi = getFavorite;
 export const getRentApi = getRent;
 
-import { getCity, getHotCity } from "@/api/area";
+import { getCity, getHotCity, getCityId } from "@/api/area";
 export const getCityApi = getCity;
 export const getHotCityApi = getHotCity;
+export const getCityIdApi = getCityId;
+
+export * from "@/api/house";

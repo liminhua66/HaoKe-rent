@@ -1,41 +1,46 @@
 <template>
-  <div style="padding-top: 46px">
-    <!-- 头部 -->
-    <van-nav-bar
-      class="title"
-      title="房屋管理"
-      left-arrow
-      @click-left="onClickLeft"
-      fixed
-    />
-    <!-- 列表 -->
-    <ul>
-      <li class="list-item" v-for="item in RentList" :key="item.houseCode">
-        <div class="left">
-          <img :src="`http://liufusong.top:8080${item.houseImg}`" alt="" />
-        </div>
-        <div class="right">
-          <h3 class="house-title">{{ item.title }}</h3>
-          <div class="house-info">{{ item.desc }}</div>
-          <div
-            class="house-transport"
-            v-for="(tag, index) in item.tags"
-            :key="index"
-          >
-            <span>{{ tag }}</span>
+  <div>
+    <div style="padding-top: 46px" v-if="this.$route.meta.rentShow">
+      <!-- 头部 -->
+      <van-nav-bar
+        class="title"
+        title="房屋管理"
+        left-arrow
+        @click-left="onClickLeft"
+        fixed
+      />
+      <!-- 列表 -->
+      <ul>
+        <li class="list-item" v-for="item in RentList" :key="item.houseCode">
+          <div class="left">
+            <img :src="`http://liufusong.top:8080${item.houseImg}`" alt="" />
           </div>
-          <div class="house-price">
-            <span>{{ item.price }}</span> 元/月
+          <div class="right">
+            <h3 class="house-title">{{ item.title }}</h3>
+            <div class="house-info">{{ item.desc }}</div>
+            <div
+              class="house-transport"
+              v-for="(tag, index) in item.tags"
+              :key="index"
+            >
+              <span>{{ tag }}</span>
+            </div>
+            <div class="house-price">
+              <span>{{ item.price }}</span> 元/月
+            </div>
           </div>
-        </div>
-      </li>
-    </ul>
+        </li>
+      </ul>
+    </div>
+    <!-- 房屋出租 -->
+    <router-view></router-view>
   </div>
 </template>
 
 <script>
 import { getRentApi } from "@/api";
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Rent",
   data() {
     return {
@@ -53,7 +58,7 @@ export default {
     async getRent() {
       try {
         const res = await getRentApi();
-        console.log(res);
+        // console.log(res);
         this.RentList = res.data.body;
       } catch (error) {
         console.log(error);

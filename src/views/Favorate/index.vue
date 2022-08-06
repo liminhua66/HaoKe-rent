@@ -36,6 +36,7 @@
 <script>
 import { getFavoriteApi } from "@/api";
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
   name: "Favorate",
   data() {
     return {

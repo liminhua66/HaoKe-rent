@@ -6,10 +6,10 @@ export const login = (data) =>
     method: "POST",
   });
 
-export const getHouse = () =>
+export const getHouse = (params) =>
   request({
-    url: "/houses/?cityId=AREA|88cff55c-aaa4-e2e0",
-    method: "GET",
+    url: "/houses",
+    params,
   });
 
 export const getUser = () =>

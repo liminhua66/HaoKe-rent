@@ -9,7 +9,15 @@
       fixed
     />
     <!-- 城市列表 -->
+    <!-- 热门城市 -->
     <van-index-bar :index-list="letterList" :sticky="false">
+      <div v-for="(item, index) in hotCity" :key="index">
+        <van-index-anchor :index="index">{{ item.title }}</van-index-anchor>
+        <div v-for="(c, index) in item.city" :key="index">
+          <van-cell :title="c.label" @click="clickCity" />
+        </div>
+      </div>
+      <!-- 普通城市 -->
       <div v-for="(item, index) in newList" :key="index">
         <van-index-anchor :index="index">{{ item.title }}</van-index-anchor>
         <div v-for="(c, index) in item.city" :key="index">
@@ -23,21 +31,21 @@
 <script>
 import { getCityApi, getHotCityApi } from "@/api";
 export default {
-  name: "CityA",
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "City",
   data() {
     return {
       cityList: [],
       letterList: [],
       newList: [],
       clickCityName: "",
+      hotCity: [],
     };
   },
   methods: {
     // 左上箭头返回
     onClickLeft() {
-      this.$router.push({
-        path: "/home",
-      });
+      this.$router.go(-1);
     },
     // 获取城市列表数据
     async getCityList() {
@@ -93,7 +101,7 @@ export default {
       this.newList = newList;
       console.log(this.newList);
     },
-    // 获取当前城市及热门城市
+    // 获取当前热门城市
     async getHotCity() {
       const res = await getHotCityApi();
       // console.log(res);
@@ -102,7 +110,8 @@ export default {
         city: [],
       };
       res.data.body.forEach((item) => hot.city.push(item));
-      this.newList.unshift(hot);
+      // this.newList.unshift(hot);
+      this.hotCity.push(hot);
     },
     // 点击城市，获取城市名字
     clickCity(e) {

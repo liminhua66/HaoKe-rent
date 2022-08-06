@@ -45,7 +45,7 @@
           <img src="../../assets/imgs/3.png" alt="" />
           <p>地图找房</p>
         </div>
-        <div class="nav_item" @click="toLogin">
+        <div class="nav_item" @click="$router.push('/rent/add')">
           <img src="../../assets/imgs/1.png" alt="" />
           <p>去出租</p>
         </div>
@@ -87,8 +87,10 @@
 </template>
 
 <script>
-import { getSwiperApi, getRentGroupsApi } from "@/api";
+import { getSwiperApi, getRentGroupsApi, getCityIdApi } from "@/api";
 export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: "Home",
   data() {
     return {
       active: 0,
@@ -96,6 +98,9 @@ export default {
       swiperList: [],
       groupsList: [],
     };
+  },
+  created() {
+    this.getCityId();
   },
   methods: {
     // 发送请求，获取轮播图数据
@@ -108,7 +113,12 @@ export default {
       const res = await getRentGroupsApi();
       this.groupsList = res.data.body;
     },
-
+    // 获取城市ID
+    async getCityId() {
+      const res = await getCityIdApi(this.$store.state.cityName || "北京");
+      let cityId = res.data.body.value;
+      this.$store.commit("SET_CITYID", cityId);
+    },
     // 搜索vant自带，功能待定义
     onSearch() {},
     toList() {
